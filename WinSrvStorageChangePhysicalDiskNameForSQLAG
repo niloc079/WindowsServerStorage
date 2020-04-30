@@ -1,1 +1,46 @@
+##
+## Name: WinSrvStorageChangePhysicalDiskNameForSQLAG
+## Created Date: 2020-04-30
+## Purpose: Rename physical disk to match LUN when SQL Always On was deployed and configured, disks will be mirror
+## 
+## Instructions//
+## Get correct VirtualDisk first
+## Update LUN numbers
+## Update new friendly name
+##
+## SCRIPT-START
+##
+$VDisk = Get-VirtualDisk -FriendlyName Disk2
+$VDisk | Set-VirtualDisk -NewFriendlyName "F_Drive_SQL01"
+$VDisk
+ 
+#
+# Update disk based on storage pool
+#
+$Disk = Get-VirtualDisk -FriendlyName "F_Drive_SQL01"
+$Disk | Get-PhysicalDisk | select-object FriendlyName, deviceid, PhysicalLocation | Sort-object deviceid | Format-table
+ 
+#Get-PhysicalDisk | select-object FriendlyName, SerialNumber, CanPool, OperationalStatus, HealthStatus, Usage, Size, Model, deviceid, objectid, PhysicalLocation | Sort-object deviceid | Format-list
+#Get-PhysicalDisk | select-object FriendlyName, deviceid, PhysicalLocation | Sort-object deviceid | Format-table
+ 
+$NewDisk = $Disk | Get-PhysicalDisk | Where-object {$_.PhysicalLocation -match "Lun 1"}
+$NewDisk
+$NewDisk | Set-PhysicalDisk -NewFriendlyName "ruscegwiresql02disk_1"
+ 
+$NewDisk = $Disk | Get-PhysicalDisk | Where-object {$_.PhysicalLocation -match "Lun 2"}
+$NewDisk
+$NewDisk | Set-PhysicalDisk -NewFriendlyName "ruscegwiresql02disk_2"
+ 
+$NewDisk = $Disk | Get-PhysicalDisk | Where-object {$_.PhysicalLocation -match "Lun 3"}
+$NewDisk
+$NewDisk | Set-PhysicalDisk -NewFriendlyName "ruscegwiresql02disk_3"
+ 
+$NewDisk = $Disk | Get-PhysicalDisk | Where-object {$_.PhysicalLocation -match "Lun 4"}
+$NewDisk
+$NewDisk | Set-PhysicalDisk -NewFriendlyName "ruscegwiresql02disk_4"
+ 
+Get-PhysicalDisk | select-object FriendlyName, deviceid, PhysicalLocation | Sort-object deviceid | Format-table
 
+##
+## SCRIPT-END
+##
