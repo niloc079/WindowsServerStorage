@@ -2,6 +2,7 @@
 ## Name: WinSrvStorageChangePhysicalDiskNameForSQLAG
 ## Created Date: 2020-04-30
 ## Purpose: Rename physical disk to match LUN when SQL Always On was deployed and configured, disks will be mirror
+## Note: This will update any in the AG cluster
 ## 
 ## Instructions//
 ## Get correct VirtualDisk first
