@@ -1,3 +1,14 @@
+##
+## Name: WinSrvStorageChangePhysicalDiskName
+## Created Date: 2020-04-30
+## Purpose: Rename physical disk to match LUN, used to match Azure disks
+## 
+## Instructions//
+## Update LUN numbers
+## Update new friendly name
+##
+## SCRIPT-START
+##
 #
 # WinSrvStorageChangePhysicalDiskName
 # Sets Name of disks part of storage pool
@@ -41,8 +52,7 @@ Get-Disk | Select-Object FriendlyName, DiskNumber, Number, HealthStatus, Offline
 # Set-Volume https://docs.microsoft.com/en-us/powershell/module/storage/set-volume?view=win10-ps
 #
 Get-Volume | Select-Object DriveLetter, FileSystemLabel, FileSystem, DriveType, HealthStatus, OperationalStatus, SizeRemaining, Size, Path, UniqueId | Sort-object DriveLetter
- 
 
-________________________________________
-The information and any attachments included in this message are confidential and should be viewed and utilized by the intended recipient alone. If you have received this message in error, please notify the sender immediately and destroy the message and any attached documents. Any review or usage is strictly prohibited and receipt of this message does not waive the confidential or privileged nature of the communication. 
-________________________________________
+##
+## SCRIPT-END
+##
