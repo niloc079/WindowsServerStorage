@@ -1,0 +1,48 @@
+#
+# WinSrvStorageChangePhysicalDiskName
+# Sets Name of disks part of storage pool
+# https://docs.microsoft.com/en-us/powershell/module/storage/set-physicaldisk?view=win10-ps
+#
+Get-PhysicalDisk | select-object FriendlyName, SerialNumber, CanPool, OperationalStatus, HealthStatus, Usage, Size, Model, deviceid, objectid, PhysicalLocation | Sort-object deviceid | Format-list
+Get-PhysicalDisk | select-object FriendlyName, deviceid, PhysicalLocation | Sort-object deviceid | Format-table
+ 
+$Disk = Get-PhysicalDisk | Where-object {$_.PhysicalLocation -match "Lun 1"}
+$Disk
+$Disk | Set-PhysicalDisk -NewFriendlyName "puscegwiresql01disk_1"
+ 
+$Disk = Get-PhysicalDisk | Where-object {$_.PhysicalLocation -match "Lun 2"}
+$Disk
+$Disk | Set-PhysicalDisk -NewFriendlyName "puscegwiresql01disk_2"
+ 
+$Disk = Get-PhysicalDisk | Where-object {$_.PhysicalLocation -match "Lun 3"}
+$Disk
+$Disk | Set-PhysicalDisk -NewFriendlyName "puscegwiresql01disk_3"
+ 
+$Disk = Get-PhysicalDisk | Where-object {$_.PhysicalLocation -match "Lun 4"}
+$Disk
+$Disk | Set-PhysicalDisk -NewFriendlyName "puscegwiresql01disk_4"
+ 
+#
+# Rename Storage Pool to match drive name
+# Get-VirtualDisk 
+#
+$VDisk = Get-VirtualDisk -FriendlyName Disk2
+$VDisk | Set-VirtualDisk -NewFriendlyName "F_Drive"
+$VDisk
+ 
+#
+# Get-Disk
+#
+Get-Disk | Select-Object FriendlyName, DiskNumber, Number, HealthStatus, OfflineReason, OperationalStatus, PartitionStyle, ProvisioningType, AllocatedSize, Size, IsBoot, IsClustered, IsScaleOut, IsOffline, IsSystem, Location, Model, NumberOfPartitions, GUID, Path, UniqueId, ObjectId | Sort-object DiskNumber
+ 
+#
+# Get Volumes 
+# Get-Volume https://docs.microsoft.com/en-us/powershell/module/storage/get-volume?view=win10-ps
+# Set-Volume https://docs.microsoft.com/en-us/powershell/module/storage/set-volume?view=win10-ps
+#
+Get-Volume | Select-Object DriveLetter, FileSystemLabel, FileSystem, DriveType, HealthStatus, OperationalStatus, SizeRemaining, Size, Path, UniqueId | Sort-object DriveLetter
+ 
+
+________________________________________
+The information and any attachments included in this message are confidential and should be viewed and utilized by the intended recipient alone. If you have received this message in error, please notify the sender immediately and destroy the message and any attached documents. Any review or usage is strictly prohibited and receipt of this message does not waive the confidential or privileged nature of the communication. 
+________________________________________
